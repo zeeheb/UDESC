@@ -1,0 +1,6 @@
+")" { yysetpos(); return yytk_RPAREN; }
+"(" { yysetpos(); return yytk_LPAREN; }
+"/" { yysetpos(); return yytk_SLASH; }
+"*" { yysetpos(); return yytk_ASTERISK; }
+"-" { yysetpos(); return yytk_MINUS; }
+"+" { yysetpos(); return yytk_PLUS; }
