@@ -204,12 +204,16 @@ Proof.
 Theorem plus_n_Sm : forall n m : nat,
   S (n + m) = n + (S m).
 Proof.
-  (* FILL IN HERE *) Admitted.
-
+  intros n. intros m. induction n as [| n' IHn'].
+  - simpl.  reflexivity.
+  - simpl. rewrite <- IHn'. reflexivity. Qed.
+  
 Theorem plus_comm : forall n m : nat,
   n + m = m + n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n. intros m. induction n as [| n' IHn']. 
+    -simpl. rewrite <- plus_n_O. reflexivity.  (*como sair do m = m + 0? USAR OUTROS THEOREMS*) 
+    -simpl. rewrite -> IHn'.  (*perdido*)  
 
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
