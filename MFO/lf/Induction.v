@@ -197,7 +197,9 @@ Proof.
 Theorem mult_0_r : forall n:nat,
   n * 0 = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n. induction n as [| n' IHn'].
+  - simpl. reflexivity.
+  - simpl. rewrite -> IHn'. reflexivity. Qed. 
 
 Theorem plus_n_Sm : forall n m : nat,
   S (n + m) = n + (S m).
