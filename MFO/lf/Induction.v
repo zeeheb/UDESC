@@ -213,17 +213,21 @@ Theorem plus_comm : forall n m : nat,
 Proof.
   intros n. intros m. induction n as [| n' IHn']. 
     -simpl. rewrite <- plus_n_O. reflexivity.  (*como sair do m = m + 0? USAR OUTROS THEOREMS*) 
-    -simpl. rewrite -> IHn'.  (*perdido*)  
+    -simpl. rewrite -> IHn'.  (*perdido*)   Admitted.
 
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
-Proof.
-  (* FILL IN HERE *) Admitted.
+Proof. 
+  
+Admitted.
 (** [] *)
 
 (** **** Exercise: 2 stars, standard (double_plus)  
 
     Consider the following function, which doubles its argument: *)
+
+
+
 
 Fixpoint double (n:nat) :=
   match n with
@@ -246,12 +250,21 @@ Proof.
     induction hypothesis about [n - 2]. The following lemma gives an
     alternative characterization of [evenb (S n)] that works better
     with induction: *)
+Lemma even_SS : forall n : nat, evenb(S(S n)) = evenb (n).
+  Proof.
+    - intro. reflexivity. Qed.
+
 
 Theorem evenb_S : forall n : nat,
   evenb (S n) = negb (evenb n).
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intro. induction n as [|n' IH].
+ - reflexivity.
+ - rewrite even_SS. rewrite -> IH. rewrite -> negb_involutive. reflexivity. Qed.  
+ 
+(* usando assert dentro do contexto equivale a um lemma provado antes *)
+
+
 
 (** **** Exercise: 1 star, standard (destruct_induction)  
 
@@ -519,22 +532,34 @@ Check leb.
 Theorem leb_refl : forall n:nat,
   true = (n <=? n).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction n as [| n' IH].
+  -  reflexivity.
+  -  simpl. rewrite -> IH. reflexivity. Qed. 
+
 
 Theorem zero_nbeq_S : forall n:nat,
   0 =? (S n) = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros.
+  - simpl. reflexivity. Qed.
 
 Theorem andb_false_r : forall b : bool,
   andb b false = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. destruct b.
+- simpl. reflexivity.
+-simpl. reflexivity. Qed.
+ 
 
 Theorem plus_ble_compat_l : forall n m p : nat,
   n <=? m = true -> (p + n) <=? (p + m) = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. destruct p. destruct n. destruct m.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+  - rewrite -> plus_O_n. rewrite <- H. reflexivity. 
+  - simpl. rewrite <- H. (* nao acabado *)
+Admitted.
 
 Theorem S_nbeq_0 : forall n:nat,
   (S n) =? 0 = false.
