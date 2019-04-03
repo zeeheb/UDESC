@@ -32,6 +32,8 @@ Definition snd (p : natprod) : nat :=
   | pair x y => y
   end.
 
+Compute (snd (pair 3 5)).
+
 Compute (fst (pair 3 5)).
 (* ===> 3 *)
 
@@ -113,7 +115,7 @@ Proof.
 Theorem surjective_pairing_stuck : forall (p : natprod),
   p = (fst p, snd p).
 Proof.
-  simpl. (* Doesn't reduce anything! *)
+  intros. simpl. (* Doesn't reduce anything! *)
 Abort.
 
 (** We have to expose the structure of [p] so that [simpl] can
@@ -134,7 +136,7 @@ Proof.
 Theorem snd_fst_is_swap : forall (p : natprod),
   (snd p, fst p) = swap_pair p.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. destruct p as [n m]. simpl. reflexivity. Qed.
 (** [] *)
 
 (** **** Exercise: 1 star, standard, optional (fst_swap_is_snd)  *)
@@ -179,6 +181,9 @@ Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
 Definition mylist1 := 1 :: (2 :: (3 :: nil)).
 Definition mylist2 := 1 :: 2 :: 3 :: nil.
 Definition mylist3 := [1;2;3].
+Definition mylist4 := 1+2::3::[].
+
+Compute mylist4.
 
 (** The [at level 60] part tells Coq how to parenthesize
     expressions that involve both [::] and some other infix operator.
@@ -217,6 +222,8 @@ Fixpoint repeat (n count : nat) : natlist :=
   | O => nil
   | S count' => n :: (repeat n count')
   end.
+
+
 
 (* ----------------------------------------------------------------- *)
 (** *** Length *)
@@ -291,14 +298,24 @@ Proof. reflexivity.  Qed.
     what these functions should do. *)
 
 Fixpoint nonzeros (l:natlist) : natlist
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+   match l with
+  | [] => []
+  | 0 :: t => nonzeros t
+  | h :: t => h::nonzeros t
+  end.
 
 Example test_nonzeros:
   nonzeros [0;1;0;2;3;0;0] = [1;2;3].
   (* FILL IN HERE *) Admitted.
 
 Fixpoint oddmembers (l:natlist) : natlist
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+ match l with
+  | [] => []
+  | h :: t => match oddb h with
+              | true => h :: oddmembers t
+              | false => oddmembers t
+              end.
+ end.
 
 Example test_oddmembers:
   oddmembers [0;1;0;2;3;0;0] = [1;3].
