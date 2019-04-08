@@ -288,71 +288,6 @@ Proof. reflexivity.  Qed.
 Example test_tl:              tl [1;2;3] = [2;3].
 Proof. reflexivity.  Qed.
 
-(* ----------------------------------------------------------------- *)
-(** *** Exercises *)
-
-(** **** Exercise: 2 stars, standard, recommended (list_funs)  
-
-    Complete the definitions of [nonzeros], [oddmembers], and
-    [countoddmembers] below. Have a look at the tests to understand
-    what these functions should do. *)
-
-Fixpoint nonzeros (l:natlist) : natlist
-   match l with
-  | [] => []
-  | 0 :: t => nonzeros t
-  | h :: t => h::nonzeros t
-  end.
-
-Example test_nonzeros:
-  nonzeros [0;1;0;2;3;0;0] = [1;2;3].
-  (* FILL IN HERE *) Admitted.
-
-Fixpoint oddmembers (l:natlist) : natlist
- match l with
-  | [] => []
-  | h :: t => match oddb h with
-              | true => h :: oddmembers t
-              | false => oddmembers t
-              end.
- end.
-
-Example test_oddmembers:
-  oddmembers [0;1;0;2;3;0;0] = [1;3].
-  (* FILL IN HERE *) Admitted.
-
-Definition countoddmembers (l:natlist) : nat
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
-
-Example test_countoddmembers1:
-  countoddmembers [1;0;3;1;4;5] = 4.
-  (* FILL IN HERE *) Admitted.
-
-Example test_countoddmembers2:
-  countoddmembers [0;2;4] = 0.
-  (* FILL IN HERE *) Admitted.
-
-Example test_countoddmembers3:
-  countoddmembers nil = 0.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
-
-(** **** Exercise: 3 stars, advanced (alternate)  
-
-    Complete the definition of [alternate], which interleaves two
-    lists into one, alternating between elements taken from the first
-    list and elements from the second.  See the tests below for more
-    specific examples.
-
-    (Note: one natural and elegant way of writing [alternate] will
-    fail to satisfy Coq's requirement that all [Fixpoint] definitions
-    be "obviously terminating."  If you find yourself in this rut,
-    look for a slightly more verbose solution that considers elements
-    of both lists at the same time.  One possible solution involves
-    defining a new kind of pairs, but this is not the only way.)  *)
-
-Fixpoint alternate (l1 l2 : natlist) : natlist
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
 
 Example test_alternate1:
   alternate [1;2;3] [4;5;6] = [1;4;2;5;3;6].
@@ -386,7 +321,10 @@ Definition bag := natlist.
     [count], [sum], [add], and [member] for bags. *)
 
 Fixpoint count (v:nat) (s:bag) : nat
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+  match s with
+ | [] => 0
+ | h :: t => if v =? h then S(count v t) else count v t
+end.
 
 (** All these proofs can be done just by [reflexivity]. *)
 
