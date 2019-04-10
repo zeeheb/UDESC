@@ -32,8 +32,6 @@ Definition snd (p : natprod) : nat :=
   | pair x y => y
   end.
 
-Compute (snd (pair 3 5)).
-
 Compute (fst (pair 3 5)).
 (* ===> 3 *)
 
@@ -115,7 +113,7 @@ Proof.
 Theorem surjective_pairing_stuck : forall (p : natprod),
   p = (fst p, snd p).
 Proof.
-  intros. simpl. (* Doesn't reduce anything! *)
+  simpl. (* Doesn't reduce anything! *)
 Abort.
 
 (** We have to expose the structure of [p] so that [simpl] can
@@ -136,7 +134,7 @@ Proof.
 Theorem snd_fst_is_swap : forall (p : natprod),
   (snd p, fst p) = swap_pair p.
 Proof.
-  intros. destruct p as [n m]. simpl. reflexivity. Qed.
+  (* FILL IN HERE *) Admitted.
 (** [] *)
 
 (** **** Exercise: 1 star, standard, optional (fst_swap_is_snd)  *)
@@ -181,9 +179,6 @@ Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
 Definition mylist1 := 1 :: (2 :: (3 :: nil)).
 Definition mylist2 := 1 :: 2 :: 3 :: nil.
 Definition mylist3 := [1;2;3].
-Definition mylist4 := 1+2::3::[].
-
-Compute mylist4.
 
 (** The [at level 60] part tells Coq how to parenthesize
     expressions that involve both [::] and some other infix operator.
@@ -222,8 +217,6 @@ Fixpoint repeat (n count : nat) : natlist :=
   | O => nil
   | S count' => n :: (repeat n count')
   end.
-
-
 
 (* ----------------------------------------------------------------- *)
 (** *** Length *)
@@ -288,6 +281,61 @@ Proof. reflexivity.  Qed.
 Example test_tl:              tl [1;2;3] = [2;3].
 Proof. reflexivity.  Qed.
 
+(* ----------------------------------------------------------------- *)
+(** *** Exercises *)
+
+(** **** Exercise: 2 stars, standard, recommended (list_funs)  
+
+    Complete the definitions of [nonzeros], [oddmembers], and
+    [countoddmembers] below. Have a look at the tests to understand
+    what these functions should do. *)
+
+Fixpoint nonzeros (l:natlist) : natlist
+  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+
+Example test_nonzeros:
+  nonzeros [0;1;0;2;3;0;0] = [1;2;3].
+  (* FILL IN HERE *) Admitted.
+
+Fixpoint oddmembers (l:natlist) : natlist
+  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+
+Example test_oddmembers:
+  oddmembers [0;1;0;2;3;0;0] = [1;3].
+  (* FILL IN HERE *) Admitted.
+
+Definition countoddmembers (l:natlist) : nat
+  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+
+Example test_countoddmembers1:
+  countoddmembers [1;0;3;1;4;5] = 4.
+  (* FILL IN HERE *) Admitted.
+
+Example test_countoddmembers2:
+  countoddmembers [0;2;4] = 0.
+  (* FILL IN HERE *) Admitted.
+
+Example test_countoddmembers3:
+  countoddmembers nil = 0.
+  (* FILL IN HERE *) Admitted.
+(** [] *)
+
+(** **** Exercise: 3 stars, advanced (alternate)  
+
+    Complete the definition of [alternate], which interleaves two
+    lists into one, alternating between elements taken from the first
+    list and elements from the second.  See the tests below for more
+    specific examples.
+
+    (Note: one natural and elegant way of writing [alternate] will
+    fail to satisfy Coq's requirement that all [Fixpoint] definitions
+    be "obviously terminating."  If you find yourself in this rut,
+    look for a slightly more verbose solution that considers elements
+    of both lists at the same time.  One possible solution involves
+    defining a new kind of pairs, but this is not the only way.)  *)
+
+Fixpoint alternate (l1 l2 : natlist) : natlist
+  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
 
 Example test_alternate1:
   alternate [1;2;3] [4;5;6] = [1;4;2;5;3;6].
@@ -321,10 +369,7 @@ Definition bag := natlist.
     [count], [sum], [add], and [member] for bags. *)
 
 Fixpoint count (v:nat) (s:bag) : nat
-  match s with
- | [] => 0
- | h :: t => if v =? h then S(count v t) else count v t
-end.
+  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
 
 (** All these proofs can be done just by [reflexivity]. *)
 
@@ -758,15 +803,28 @@ Proof.
 
     More practice with lists: *)
 
+Print app.
+
 Theorem app_nil_r : forall l : natlist,
   l ++ [] = l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* se fosse [] + l = l seria mais facil pois ja eh a definiçao de concatenação *)
+  intro. induction l as [| h t IH].
+  - simpl. reflexivity.
+  - simpl. rewrite -> IH. reflexivity. Qed.
+  
+Print rev.
 
 Theorem rev_app_distr: forall l1 l2 : natlist,
   rev (l1 ++ l2) = rev l2 ++ rev l1.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros l1 l2. induction l1 as [|h t IH].
+  - simpl.  rewrite app_nil_r. reflexivity.
+  - simpl. rewrite IH. rewrite app_assoc. reflexivity. Qed.
+
+Print app_assoc.
+
+
 
 Theorem rev_involutive : forall l : natlist,
   rev (rev l) = l.
@@ -780,14 +838,26 @@ Proof.
 Theorem app_assoc4 : forall l1 l2 l3 l4 : natlist,
   l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros l1 l2 l3 l4. rewrite app_assoc. rewrite app_assoc. reflexivity. Qed.
+
+
 
 (** An exercise about your implementation of [nonzeros]: *)
+Print nonzeros. 
 
+(*SE O NONZEROS FUNFASSE *)
+(*
 Lemma nonzeros_app : forall l1 l2 : natlist,
   nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros l1 l2. induction l1 as [| h1 t1 IH].
+  - simpl. reflexivity.
+  - simpl. destruct h as [|h'].
+      + simpl. rewrite IH. reflexivity.
+      + rewrite IH. simpl. reflexivity. Qed.                  (*testar no note*)
+
+*) 
+
 (** [] *)
 
 (** **** Exercise: 2 stars, standard (eqblist)  
