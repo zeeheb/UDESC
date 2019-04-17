@@ -514,9 +514,24 @@ Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
     Fill in the definition of [split] below.  Make sure it passes the
     given unit test. *)
 
-Fixpoint split {X Y : Type} (l : list (X*Y))
-               : (list X) * (list Y)
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+ (*Fixpoint split {X Y : Type} (l : list (X*Y))         (* exerc feito *) era pra ter funfando
+               : (list X) * (list Y) :=
+  match l with
+  | [] => ([], [])
+  | (a,b)::t => match split t with
+                | (la, lb) => (a::la, b::lb)
+                end.               
+  end. *) 
+
+Fixpoint split {X Y : Type} (l : list (X*Y))         (* exerc feito *)
+               : (list X) * (list Y) :=
+  match l with
+  | [] => ([], [])
+  | (a,b)::t => let (la, lb) := split t in (a::la, b::lb)
+  end.
+
+Check split.
+Check @split.
 
 Example test_split:
   split [(1,false);(2,false)] = ([1;2],[false;false]).
@@ -695,9 +710,12 @@ Proof. reflexivity.  Qed.
     [filter_even_gt7] that takes a list of natural numbers as input
     and returns a list of just those that are even and greater than
     7. *)
+Search (nat -> bool).
+Search (bool -> bool).
 
-Definition filter_even_gt7 (l : list nat) : list nat
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+
+Definition filter_even_gt7 (l : list nat) : list nat :=
+  filter (fun x => andb (leb 8 x) (evenb x)) l (*precisa do leb do basics.v *).
 
 Example test_filter_even_gt7_1 :
   filter_even_gt7 [1;2;6;9;10;3;12;8] = [10;12;8].
