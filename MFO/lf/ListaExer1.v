@@ -29,23 +29,28 @@ end.
 
 Theorem plus_n_1 : forall (n : nat),
   n + 1 = S (n).
-Proof. Admitted.
+Proof. 
+  intros n. induction n as [| n' IH].
+- simpl. reflexivity.
+- simpl. rewrite <- IH. reflexivity. Qed.
 
 
 Theorem plus_n_Sm : forall (n m:nat),
   n + S m = S (n + m).
 Proof.
-  Admitted.
+  intros n m. induction n as [| n' IH].
+- simpl. reflexivity.
+- simpl. rewrite <- IH. reflexivity. Qed.
 
 Theorem mult_2_n_plus : forall (n : nat),
   n + n = 2 * n.
 Proof.
-  Admitted.
+  intros n. simpl. rewrite <- plus_n_O. reflexivity. Qed.
 
 Theorem mult2_div2 : forall n : nat,
   n = div2 (2 * n).
 Proof.
-  Admitted.
+  intros n. simpl. rewrite <- plus_n_O.  
 
 Theorem div2_mult2_plus: forall (n m : nat),
   n + div2 m = div2 (2 * n + m).
