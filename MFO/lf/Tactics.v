@@ -106,8 +106,8 @@ Proof.
 Theorem rev_exercise1 : forall (l l' : list nat),
      l = rev l' ->
      l' = rev l.
-Proof.
-  (* FILL IN HERE *) Admitted.
+Proof. 
+  intros l l' H. rewrite H. symmetry. apply rev_involutive. Qed.     (* exercicio feito *) 
 (** [] *)
 
 (** **** Exercise: 1 star, standard, optional (apply_rewrite)  
@@ -131,7 +131,7 @@ Example trans_eq_example : forall (a b c d e f : nat),
      [c;d] = [e;f] ->
      [a;b] = [e;f].
 Proof.
-  intros a b c d e f eq1 eq2.
+  intros a b c d e f eq1 eq2.             (* eq1 e eq2 = proposiçoes a esquerda *)
   rewrite -> eq1. rewrite -> eq2. reflexivity.  Qed.
 
 (** Since this is a common pattern, we might like to pull it out
@@ -170,13 +170,19 @@ Proof.
     instantiation we're giving. We could instead write: [apply
     trans_eq with [c;d]]. *)
 
+Search minustwo.
+
 (** **** Exercise: 3 stars, standard, optional (apply_with_exercise)  *)
 Example trans_eq_exercise : forall (n m o p : nat),
      m = (minustwo o) ->
      (n + p) = m ->
      (n + p) = (minustwo o).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n m o p eq1 eq2. apply trans_eq with (m := m). apply eq2. apply eq1. Qed.
+  
+(*  intros n m o p eq1 eq2. rewrite <- eq1. apply eq2. Qed.  MAIS SIMPLES MAS O EXERCICIO NAO DEIXAVA*)
+
+
 (** [] *)
 
 (* ################################################################# *)
