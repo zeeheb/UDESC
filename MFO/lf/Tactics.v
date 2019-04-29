@@ -106,8 +106,8 @@ Proof.
 Theorem rev_exercise1 : forall (l l' : list nat),
      l = rev l' ->
      l' = rev l.
-Proof. 
-  intros l l' H. rewrite H. symmetry. apply rev_involutive. Qed.     (* exercicio feito *) 
+Proof.
+  (* FILL IN HERE *) Admitted.
 (** [] *)
 
 (** **** Exercise: 1 star, standard, optional (apply_rewrite)  
@@ -131,7 +131,7 @@ Example trans_eq_example : forall (a b c d e f : nat),
      [c;d] = [e;f] ->
      [a;b] = [e;f].
 Proof.
-  intros a b c d e f eq1 eq2.             (* eq1 e eq2 = proposiçoes a esquerda *)
+  intros a b c d e f eq1 eq2.
   rewrite -> eq1. rewrite -> eq2. reflexivity.  Qed.
 
 (** Since this is a common pattern, we might like to pull it out
@@ -170,19 +170,13 @@ Proof.
     instantiation we're giving. We could instead write: [apply
     trans_eq with [c;d]]. *)
 
-Search minustwo.
-
 (** **** Exercise: 3 stars, standard, optional (apply_with_exercise)  *)
 Example trans_eq_exercise : forall (n m o p : nat),
      m = (minustwo o) ->
      (n + p) = m ->
      (n + p) = (minustwo o).
 Proof.
-  intros n m o p eq1 eq2. apply trans_eq with (m := m). apply eq2. apply eq1. Qed.
-  
-(*  intros n m o p eq1 eq2. rewrite <- eq1. apply eq2. Qed.  MAIS SIMPLES MAS O EXERCICIO NAO DEIXAVA*)
-
-
+  (* FILL IN HERE *) Admitted.
 (** [] *)
 
 (* ################################################################# *)
@@ -351,7 +345,7 @@ Example discriminate_ex3 :
     x :: y :: l = [] ->
     x = z.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros x y z H. discriminate. Qed.
 (** [] *)
 
 (** The injectivity of constructors allows us to reason that
@@ -425,8 +419,17 @@ Theorem plus_n_n_injective : forall n m,
      n + n = m + m ->
      n = m.
 Proof.
-  intros n. induction n as [| n'].
-  (* FILL IN HERE *) Admitted.
+  intros n. induction n as [| n' IH].
+ - intros m h1. destruct m as [| m'].
+   + reflexivity.
+   + discriminate h1.
+- intros m h1. destruct m as [| m'].
+   + discriminate h1.
+   + simpl in h1. rewrite <- plus_n_Sm in h1. rewrite <- plus_n_Sm in h1. injection h1 as h2. apply IH in h2.
+      rewrite h2. reflexivity. Qed. (* NEM SEMPRE PODEMOS INTRODUZIR NO COMEÇO TODAS AS VARIAVEIS *)
+ 
+Check plus_n_Sm.
+
 (** [] *)
 
 (* ################################################################# *)
