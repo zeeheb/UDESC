@@ -50,25 +50,31 @@ Proof.
 Theorem mult2_div2 : forall n : nat,
   n = div2 (2 * n).
 Proof.
-  intros n. simpl. rewrite <- plus_n_O.  
+  intros n. simpl. rewrite <- plus_n_O. induction n as [| n' H].
+  - simpl. reflexivity.
+  - rewrite -> H. rewrite -> plus_n_Sm. simpl. rewrite <- H. rewrite <- H. reflexivity. Qed.
 
 Theorem div2_mult2_plus: forall (n m : nat),
   n + div2 m = div2 (2 * n + m).
 Proof.
-  Admitted.
+   intros n m. simpl. rewrite <- plus_n_O. induction n as [| n' H].
+  - simpl. reflexivity.
+  - rewrite -> plus_n_Sm. simpl. rewrite <- H. reflexivity. Qed. 
 
 Theorem mult_Sn_m : forall (n m : nat),
   S n * m = m + n * m.
 Proof.
-  Admitted.
+  intros m n. simpl. reflexivity. Qed.
 
 Theorem sum_Sn : forall n : nat,
   sum (S n) = S n + sum n.
 Proof.
-  Admitted.
+  intro n. simpl. reflexivity. Qed.
 
 Theorem sum_n : forall n : nat,
   sum n = div2 (n * (n + 1)).
 Proof.
-  Admitted. 
+  intro n. rewrite -> plus_n_Sm. rewrite <- plus_n_O. induction n as [| n' H].
+  - simpl. reflexivity.
+  - simpl. rewrite <- plus_n_Sm. rewrite -> H. 
 
