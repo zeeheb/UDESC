@@ -10,7 +10,9 @@ From LF Require Export Poly.
 Theorem app_comm_fold :forall {X Y} (f: X->Y->Y) l1 l2 b,
   fold f (l1 ++ l2) b = fold f l1 (fold f l2 b).
 Proof.
-  Admitted.
+  intros. induction l1.
+  - unfold fold. simpl. reflexivity. 
+  - simpl. rewrite <- IHl1. simpl. reflexivity. Qed. 
 
 (** Como visto no módulo [Poly.v], muitas funções sobre listas podem ser 
     implementadas usando a função [fold], por exemplo, a função 
@@ -27,29 +29,32 @@ Definition fold_length {X : Type} (l : list X) : nat :=
 
 Lemma fold_length_head : forall X (h : X) (t : list X),
   fold_length (h::t) = S (fold_length t).
-Proof. Admitted.
-
-
+Proof. intros. reflexivity. Qed.
+ 
 Theorem fold_length_correct : forall X (l : list X),
   fold_length l = length l.
-Proof. Admitted. 
+Proof. intros. induction l.
+  - unfold fold_length. simpl. reflexivity.
+  - simpl. rewrite <- IHl. unfold fold_length. simpl. reflexivity. Qed.
 
 (** Também é possível definir a função [map] por meio da função [fold],
     faça essa definição: *)
 
-Definition fold_map {X Y: Type} (f: X -> Y) (l: list X) : list Y. 
-Admitted.
+Definition fold_map {X Y: Type} (f: X -> Y) (l: list X) : list Y := fold (fun x l' => f x :: l') l[]. 
+
 
 Example test_fold_map : fold_map (mult 2) [1; 2; 3] = [2; 4; 6].
-Proof. Admitted. 
+Proof. reflexivity. Qed.
 
 (** Prove que [fold_map] tem um comportamento identico a [map], defina lemas 
     auxiliares se necessário: *)
 
 Theorem fold_map_correct : forall X Y (f: X -> Y) (l: list X),
   fold_map f l = map f l.
-Proof. 
-  Admitted.
+Proof.  
+  intros. induction l.
+  - unfold fold_map. simpl. reflexivity.
+  - simpl. rewrite <- IHl. unfold fold_map. simpl. reflexivity. Qed. 
 
 (** Podemos imaginar que a função [fold] coloca uma operação binária entre
     cada elemento de uma lista, por exemplo, [fold plus [1; 2; 3] 0] é igual 
