@@ -896,12 +896,16 @@ Fixpoint split {X Y : Type} (l : list (X*Y))
 
 (** Prove that [split] and [combine] are inverses in the following
     sense: *)
+Lemma eq_cons : forall (X : Type) (l1 l2: list X) (x: X), l1 = l2 -> x:: l1 = x :: l2.
+  intros X Y l1. Admitted.
+
 
 Theorem combine_split : forall X Y (l : list (X * Y)) l1 l2,
   split l = (l1, l2) ->
   combine l1 l2 = l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros l1 l2 X Y. Admitted.
+
 (** [] *)
 
 (** The [eqn:] part of the [destruct] tactic is optional: We've chosen
@@ -977,7 +981,17 @@ Theorem bool_fn_applied_thrice :
   forall (f : bool -> bool) (b : bool),
   f (f (f b)) = f b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros f b. destruct b.
+  - destruct (f true) eqn: h1. 
+    + rewrite -> h1. rewrite -> h1. reflexivity.
+    + destruct (f false) eqn : h2. rewrite -> h1. reflexivity. rewrite -> h2. reflexivity.
+  - destruct (f false) eqn: h1.
+    + destruct (f true) eqn  : h2. rewrite -> h2. reflexivity. rewrite -> h1. reflexivity.
+    + rewrite -> h1. rewrite -> h1. reflexivity. Qed.
+    
+        
+
+    
 (** [] *)
 
 (* ################################################################# *)
