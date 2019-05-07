@@ -2,6 +2,7 @@ From LF Require Export Poly.
 
 (** * Métodos Formais - Lista de Exercícios 2 *)
 
+(* José Eduardo Brandão *)
 
 (** Informalmente podemos dizer que o seguinte teorema estabelece a 
     comutatividade da função [fold] em relação a concatenação ([++]), 
@@ -70,7 +71,3 @@ Admitted.
 
 Example test_foldl : foldl minus 10 [1; 2; 3] = 4.
 Proof. Admitted.
-
-
-
-
