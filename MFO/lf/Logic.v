@@ -312,7 +312,7 @@ Lemma zero_or_succ :
   forall n : nat, n = 0 \/ n = S (pred n).
 Proof.
   (* WORKED IN CLASS *)
-  intros [|n].
+  intros [|n'].
   - left. reflexivity.
   - right. reflexivity.
 Qed.
@@ -321,14 +321,20 @@ Qed.
 Lemma mult_eq_0 :
   forall n m, n * m = 0 -> n = 0 \/ m = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n m. destruct n as [| n'].
+  - left. reflexivity.
+  - right. destruct m as [| m'].
+    + reflexivity.
+    + discriminate H. Qed.    
 (** [] *)
 
 (** **** Exercise: 1 star, standard (or_commut)  *)
 Theorem or_commut : forall P Q : Prop,
   P \/ Q  -> Q \/ P.
-Proof.
-  (* FILL IN HERE *) Admitted.
+Proof. 
+  intros P Q H. destruct H as [HP | HG].
+  - right. apply HP. 
+  -  left. apply HG. Qed.
 (** [] *)
 
 (* ================================================================= *)
