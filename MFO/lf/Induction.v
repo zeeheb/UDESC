@@ -197,37 +197,35 @@ Proof.
 Theorem mult_0_r : forall n:nat,
   n * 0 = 0.
 Proof.
-  intros n. induction n as [| n' IHn'].
-  - simpl. reflexivity.
-  - simpl. rewrite -> IHn'. reflexivity. Qed. 
+  intros. induction n as [| n' H].
+  - reflexivity.
+  - simpl. rewrite -> H. reflexivity. Qed.
 
 Theorem plus_n_Sm : forall n m : nat,
   S (n + m) = n + (S m).
 Proof.
-  intros n. intros m. induction n as [| n' IHn'].
-  - simpl.  reflexivity.
-  - simpl. rewrite <- IHn'. reflexivity. Qed.
-  
+  intros. induction n as [| n' H].
+  - simpl. reflexivity.
+  - simpl. rewrite -> H. reflexivity. Qed. 
+
 Theorem plus_comm : forall n m : nat,
   n + m = m + n.
 Proof.
-  intros n. intros m. induction n as [| n' IHn']. 
-    -simpl. rewrite <- plus_n_O. reflexivity.  (*como sair do m = m + 0? USAR OUTROS THEOREMS*) 
-    -simpl. rewrite -> IHn'.  (*perdido*)   Admitted.
+  intros. induction n as [| n' H].
+  - simpl. rewrite <- plus_n_O. reflexivity.
+  - simpl. rewrite -> H. rewrite -> plus_n_Sm. reflexivity. Qed.
 
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
-Proof. 
-  
-Admitted.
+Proof.
+  intros. induction n as [| n' H].
+  - simpl. reflexivity.
+  - simpl. rewrite <- H. reflexivity. Qed.
 (** [] *)
 
 (** **** Exercise: 2 stars, standard (double_plus)  
 
     Consider the following function, which doubles its argument: *)
-
-
-
 
 Fixpoint double (n:nat) :=
   match n with
@@ -250,21 +248,12 @@ Proof.
     induction hypothesis about [n - 2]. The following lemma gives an
     alternative characterization of [evenb (S n)] that works better
     with induction: *)
-Lemma even_SS : forall n : nat, evenb(S(S n)) = evenb (n).
-  Proof.
-    - intro. reflexivity. Qed.
-
 
 Theorem evenb_S : forall n : nat,
   evenb (S n) = negb (evenb n).
 Proof.
-  intro. induction n as [|n' IH].
- - reflexivity.
- - rewrite even_SS. rewrite -> IH. rewrite -> negb_involutive. reflexivity. Qed.  
- 
-(* usando assert dentro do contexto equivale a um lemma provado antes *)
-
-
+  (* FILL IN HERE *) Admitted.
+(** [] *)
 
 (** **** Exercise: 1 star, standard (destruct_induction)  
 
@@ -416,7 +405,7 @@ Proof. intros n m p. induction n as [| n' IHn']. reflexivity.
 Theorem plus_assoc'' : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
-  intros n m p. induction n as [| n' IHn'].
+  intros. induction n as [| n' IHn'].
   - (* n = 0 *)
     reflexivity.
   - (* n = S n' *)
@@ -532,34 +521,22 @@ Check leb.
 Theorem leb_refl : forall n:nat,
   true = (n <=? n).
 Proof.
-  intros. induction n as [| n' IH].
-  -  reflexivity.
-  -  simpl. rewrite -> IH. reflexivity. Qed. 
-
+  (* FILL IN HERE *) Admitted.
 
 Theorem zero_nbeq_S : forall n:nat,
   0 =? (S n) = false.
 Proof.
-  intros.
-  - simpl. reflexivity. Qed.
+  (* FILL IN HERE *) Admitted.
 
 Theorem andb_false_r : forall b : bool,
   andb b false = false.
 Proof.
-  intros. destruct b.
-- simpl. reflexivity.
--simpl. reflexivity. Qed.
- 
+  (* FILL IN HERE *) Admitted.
 
 Theorem plus_ble_compat_l : forall n m p : nat,
   n <=? m = true -> (p + n) <=? (p + m) = true.
 Proof.
-  intros. destruct p. destruct n. destruct m.
-  - simpl. reflexivity.
-  - simpl. reflexivity.
-  - rewrite -> plus_O_n. rewrite <- H. reflexivity. 
-  - simpl. rewrite <- H. (* nao acabado *)
-Admitted.
+  (* FILL IN HERE *) Admitted.
 
 Theorem S_nbeq_0 : forall n:nat,
   (S n) =? 0 = false.
