@@ -155,7 +155,15 @@ Qed.
 Example and_exercise :
   forall n m : nat, n + m = 0 -> n = 0 /\ m = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. destruct n.
+  - split. 
+    + reflexivity.
+    + apply H.
+  - split.
+    + discriminate.
+    + destruct m. reflexivity. rewrite <- H. discriminate. Qed.
+        
+  
 (** [] *)
 
 (** So much for proving conjunctive statements.  To go in the other
@@ -257,7 +265,7 @@ Theorem and_assoc : forall P Q R : Prop,
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
 Proof.
   intros P Q R [HP [HQ HR]].
-  (* FILL IN HERE *) Admitted.
+  split. split. apply HP. apply HQ. apply HR. Qed.
 (** [] *)
 
 (** By the way, the infix notation [/\] is actually just syntactic
@@ -1606,4 +1614,4 @@ Definition implies_to_or := forall P Q:Prop,
 
     [] *)
 
-(* Wed Jan 9 12:02:45 EST 2019 *)
+(* Wed Jan 9 12:02:45 EST 2019 *) *)
