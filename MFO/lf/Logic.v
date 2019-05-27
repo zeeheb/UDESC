@@ -701,7 +701,9 @@ Proof.
 Theorem dist_not_exists : forall (X:Type) (P : X -> Prop),
   (forall x, P x) -> ~ (exists x, ~ P x).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros x P H. unfold not. intro H1. destruct H1 as [x' H2].
+  apply H2 in H. destruct H. Qed.  
+
 (** [] *)
 
 (** **** Exercise: 2 stars, standard (dist_exists_or)  
@@ -712,7 +714,14 @@ Proof.
 Theorem dist_exists_or : forall (X:Type) (P Q : X -> Prop),
   (exists x, P x \/ Q x) <-> (exists x, P x) \/ (exists x, Q x).
 Proof.
-   (* FILL IN HERE *) Admitted.
+   intros X P Q. split.
+  - intros H1. destruct H1 as [x [HP | HQ]]. 
+    + left. exists x. apply HP.
+    + right. exists x. apply HQ.
+ - intros H1. destruct H1 as [HP | HQ].
+    + destruct HP as [x HP]. exists x. left. apply HP.
+    + destruct HQ as [x HQ]. exists x. right. apply HQ. Qed.
+   
 (** [] *)
 
 (* ################################################################# *)
