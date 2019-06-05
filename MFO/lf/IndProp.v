@@ -75,10 +75,13 @@ Require Coq.omega.Omega.
     evenness into a formal Coq definition using an [Inductive]
     declaration, where each constructor corresponds to an inference
     rule: *)
+Check list.
 
 Inductive even : nat -> Prop :=
 | ev_0 : even 0
 | ev_SS (n : nat) (H : even n) : even (S (S n)).
+
+Check ev_0.
 
 (** This definition is different in one crucial respect from previous
     uses of [Inductive]: the thing we are defining is not a [Type],
@@ -148,7 +151,9 @@ Qed.
 Theorem ev_double : forall n,
   even (double n).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros . induction n as [| n' H].
+  - simpl. apply ev_0.
+  - simpl. apply ev_SS. apply H. Qed. 
 (** [] *)
 
 (* ################################################################# *)
