@@ -457,7 +457,9 @@ Qed.
 (** **** Exercise: 2 stars, standard (ev_sum)  *)
 Theorem ev_sum : forall n m, even n -> even m -> even (n + m).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n m En Em. induction En as [| n' En' IH].
+  - simpl. apply Em.
+  - simpl. apply ev_SS. apply IH. Qed.
 (** [] *)
 
 (** **** Exercise: 4 stars, advanced, optional (even'_ev)  
@@ -477,7 +479,14 @@ Inductive even' : nat -> Prop :=
 
 Theorem even'_ev : forall n, even' n <-> even n.
 Proof.
- (* FILL IN HERE *) Admitted.
+ intros. split.
+  - intros E. induction E as [| | n' m'  N' N M' M].
+    + apply ev_0.
+    + apply ev_SS. apply ev_0.
+    + apply ev_sum. apply N. apply M.
+  - intros E. induction E as [| n' M].
+    + apply even'_0.
+    + apply ( even'_sum 2). apply even'_2. apply IHM. Qed.
 (** [] *)
 
 (** **** Exercise: 3 stars, advanced, recommended (ev_ev__ev)  
@@ -486,9 +495,9 @@ Proof.
     bit tricky here: *)
 
 Theorem ev_ev__ev : forall n m,
-  even (n+m) -> even n -> even m.
+  even (n+m) -> even n -> even m. 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros.
 (** [] *)
 
 (** **** Exercise: 3 stars, standard, optional (ev_plus_plus)  
