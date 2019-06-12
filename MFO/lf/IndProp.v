@@ -497,7 +497,7 @@ Proof.
 Theorem ev_ev__ev : forall n m,
   even (n+m) -> even n -> even m. 
 Proof.
-  intros.
+  intros. Admitted.
 (** [] *)
 
 (** **** Exercise: 3 stars, standard, optional (ev_plus_plus)  
@@ -631,17 +631,34 @@ Inductive next_even : nat -> nat -> Prop :=
 
 Lemma le_trans : forall m n o, m <= n -> n <= o -> m <= o.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction n as [| n' IH].
+  - rewrite <- H0. apply H.
+  - rewrite -> H. apply H0. Qed. 
 
 Theorem O_le_n : forall n,
   0 <= n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction n as [| n' IH].
+  - reflexivity.
+  -  rewrite -> IH. apply le_S. reflexivity. Qed.
 
 Theorem n_le_m__Sn_le_Sm : forall n m,
   n <= m -> S n <= S m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. induction H as [|n' Hn IH].
+  - reflexivity.
+  - apply le_S. apply IH. Qed.
+
+(* usando outro parametro *)
+Theorem n_le_m__Sn_le_Sm' : forall n m,
+  n <= m -> S n <= S m.
+Proof.
+  intros. induction m as [| m' IH].
+  - inversion H. reflexivity.
+  - inversion H.
+    + reflexivity.
+    + apply le_S. apply IH in H1. apply H1. Qed.
+     
 
 Theorem Sn_le_Sm__n_le_m : forall n m,
   S n <= S m -> n <= m.
