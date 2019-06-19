@@ -497,8 +497,14 @@ Proof.
 Theorem ev_ev__ev : forall n m,
   even (n+m) -> even n -> even m. 
 Proof.
-  intros. Admitted.
-(** [] *)
+    intros n m Enplusm En.
+  induction En as [| n' IHn'].
+  simpl in Enplusm.
+  apply Enplusm.
+  simpl in Enplusm.
+  inversion Enplusm.
+  apply IHIHn'.
+  apply H0. Qed. (* esgua *)
 
 (** **** Exercise: 3 stars, standard, optional (ev_plus_plus)  
 
