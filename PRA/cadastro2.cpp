@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <errno.h>
 
-// PAREI AJEITANDO VETOR DE STRUCT
 
 
 typedef struct{
