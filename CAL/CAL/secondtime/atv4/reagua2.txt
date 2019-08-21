@@ -1,0 +1,3 @@
+Recorrência: T(n)= 4((n/4)-1) + O(1)
+
+Complexidade: O(n²/4)

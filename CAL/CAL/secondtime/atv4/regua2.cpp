@@ -4,8 +4,8 @@ using namespace std;
 
 int calcregua(int inicio, int fim) {
 
-  float centro = (fim - inicio)/2;
-  float centrointervalo = inicio + centro;
+  float centro = (fim - inicio)/4;
+  //float centrointervalo = inicio + centro;
   cout << "Inicio: " << inicio << " Fim: " << fim << " centro: " << centrointervalo << endl;
 
   if (centro <= 0){
@@ -13,8 +13,11 @@ int calcregua(int inicio, int fim) {
     return 1;
   }
 
-    calcregua(centrointervalo, fim-1);
-    calcregua(inicio, centrointervalo-1);
+ // CALCULA TODOS OS 4 SUB INTERVALOS
+    calcregua(inicio, centro-1);
+    calcregua(centro, (2*centro)-1 );
+    calcregua(2*centro, (fim-centro)-1);
+    calcregua(fim-centro, fim-1);
 
 }
 
